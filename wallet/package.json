@@ -1,0 +1,62 @@
+{
+  "name": "rept-slp-wallet",
+  "version": "3.0.1",
+  "description": "REPT SLP Wallet",
+  "main": "dist/minimal-slp-wallet.min.js",
+  "scripts": {
+    "start": "node api.js",
+    "test": "TEST=unit nyc mocha test/unit/",
+    "test:integration": "mocha --timeout 25000 test/integration/",
+    "test:temp": "mocha --timeout 25000 -g '#UTXOs' test/integration/",
+    "lint": "standard --env mocha --fix",
+    "docs": "./node_modules/.bin/apidoc -i lib/ -o docs",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage:report": "nyc --reporter=html mocha test/unit/ --exit",
+    "build": "browserify index.js -p tinyify --s SlpWallet -o dist/minimal-slp-wallet.min.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@psf/bch-js": "^4.17.0",
+    "apidoc": "^0.25.0",
+    "bch-donation": "^1.1.1",
+    "bitbox-sdk": "^8.11.2",
+    "bitcore-lib-cash": "^9.0.0",
+    "body-parser": "^1.19.0",
+    "crypto-js": "^4.0.0",
+    "express": "^4.17.1",
+    "grpc-bchrpc-node": "^0.13.0",
+    "request": "^2.88.2",
+    "slpjs": "^0.27.11"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "coveralls": "^3.1.0",
+    "eslint": "7.11.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^4.3.6",
+    "lodash.clonedeep": "^4.5.0",
+    "mocha": "^8.2.0",
+    "nyc": "^15.1.0",
+    "semantic-release": "^17.4.0",
+    "sinon": "^9.2.0",
+    "standard": "^14.3.4",
+    "tinyify": "^3.0.0"
+  },
+  "release": {
+    "publish": [
+      {
+        "path": "@semantic-release/npm",
+        "npmPublish": true
+      }
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run build"
+    }
+  }
+}
